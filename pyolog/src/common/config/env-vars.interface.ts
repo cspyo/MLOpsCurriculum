@@ -1,5 +1,5 @@
 export interface EnvVars {
-  NODE_ENV: string;
+  APP_ENV: string;
   PORT: number;
   ADMIN_USER: string;
   ADMIN_PASSWORD: string;

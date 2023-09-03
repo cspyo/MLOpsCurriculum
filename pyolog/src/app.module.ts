@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ConfigService } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { EnvVars } from './common/env-vars.interface';
+import { EnvVars } from './common/config/env-vars.interface';
 
 const typeOrmModuleOptions = {
   useFactory: async (
@@ -26,7 +26,13 @@ const typeOrmModuleOptions = {
 };
 
 @Module({
-  imports: [TypeOrmModule.forRootAsync(typeOrmModuleOptions)],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
+    TypeOrmModule.forRootAsync(typeOrmModuleOptions),
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
