@@ -3,7 +3,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { EnvVars } from './common/config/env-vars.interface';
+import { EnvVars } from 'src/common/config/env-vars.interface';
+import { UserModule } from 'src/user/user.module';
 
 const typeOrmModuleOptions = {
   useFactory: async (
@@ -32,6 +33,7 @@ const typeOrmModuleOptions = {
       envFilePath: '.env',
     }),
     TypeOrmModule.forRootAsync(typeOrmModuleOptions),
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],

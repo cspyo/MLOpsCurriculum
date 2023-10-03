@@ -1,5 +1,4 @@
 import { NestFactory, Reflector } from '@nestjs/core';
-import { AppModule } from './app.module';
 import {
   ClassSerializerInterceptor,
   Logger,
@@ -10,6 +9,7 @@ import { ConfigService } from '@nestjs/config';
 import { EnvVars } from './common/config/env-vars.interface';
 import * as cookieParser from 'cookie-parser';
 import { HttpApiExceptionFilter } from './common/filter/http-api-exception.filter';
+import { AppModule } from './app/app.module';
 
 class Application {
   private DEV_MODE: boolean;

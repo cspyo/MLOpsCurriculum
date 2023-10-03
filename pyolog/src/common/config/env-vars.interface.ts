@@ -4,8 +4,6 @@ export interface EnvVars {
   ADMIN_USER: string;
   ADMIN_PASSWORD: string;
 
-  SECRET_KEY: string;
-
   // database
   DB_USERNAME: string;
   DB_PASSWORD: string;
