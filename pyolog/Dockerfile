@@ -1,16 +1,31 @@
-FROM node:20.4.0 AS builder
+FROM node:20-alpine AS base
 
-WORKDIR /app
-COPY *.json .
-COPY *.lock .
-RUN yarn install --frozen-lockfile
+FROM base AS deps
+WORKDIR /usr/src/app
+
+COPY package.json yarn.lock ./
+RUN yarn --frozen-lockfile;
+
+# INSTALL DEPENDENCIES & BUILD FOR PRODUCTION
+FROM base AS build
+WORKDIR /usr/src/app
+
+COPY --from=deps /usr/src/app/node_modules ./node_modules
 COPY . .
+
 RUN yarn build
 
-FROM node:20.4.0-alpine3.14
-WORKDIR /app
 ENV NODE_ENV production
-COPY --from=builder /app ./
-CMD ["yarn","start:prod"]
+RUN yarn --frozen-lockfile --production;
+RUN rm -rf ./.next/cache
 
+# PRODUCTION IMAGE
+FROM base AS production
+WORKDIR /usr/src/app
 
+COPY --from=build /usr/src/app/node_modules ./node_modules
+COPY --from=build /usr/src/app/dist ./dist
+
+EXPOSE 8000
+
+CMD [ "node", "dist/main.js" ]
