@@ -4,7 +4,7 @@ FROM base AS deps
 WORKDIR /usr/src/app
 
 COPY package.json yarn.lock ./
-RUN yarn --frozen-lockfile;
+RUN yarn install --frozen-lockfile;
 
 # INSTALL DEPENDENCIES & BUILD FOR PRODUCTION
 FROM base AS build
@@ -16,8 +16,7 @@ COPY . .
 RUN yarn build
 
 ENV NODE_ENV production
-RUN yarn --frozen-lockfile --production;
-RUN rm -rf ./.next/cache
+RUN yarn install --frozen-lockfile --production;
 
 # PRODUCTION IMAGE
 FROM base AS production
