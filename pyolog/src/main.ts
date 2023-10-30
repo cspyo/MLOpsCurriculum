@@ -20,7 +20,7 @@ class Application {
   constructor(private server: NestExpressApplication) {
     const config = this.server.get(ConfigService<EnvVars>);
     this.DEV_MODE = config.get('APP_ENV') === 'production' ? false : true;
-    this.PORT = config.get('PORT', 8000);
+    this.PORT = config.get('PORT', 4000);
   }
 
   private async setUpGlobalMiddleware() {
